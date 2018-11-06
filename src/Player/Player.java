@@ -2,24 +2,62 @@ package Player;
 import Deck.*;
 import java.util.* ;
 
+/**
+ * Classe player
+ * @author MATHIEU Thomas
+ * @author GARCIA Jérémy
+ */
+
 public abstract class Player 
 {
+	/**
+	 * Nom du joueur
+	 */
 	String name ;
-	String type ;
-	String pseudo ;
-	int scorePlayer ;
-	Vector<Deck> deck ;
 	
+	/**
+	 * Type du joueur (IA / humain)
+	 */
+	String type ;
+	
+	/**
+	 * Pseudo du joueur
+	 */
+	String pseudo ;
+	
+	/**
+	 * Score du joueur
+	 */
+	int scorePlayer ;
+	
+	/**
+	 * Vector contenant toutes les cartes du joueur
+	 */
+	Vector<Card> card ;
+	
+	
+	/**
+	 * Constructeur du Player
+	 * @param name = nom du joueur ;
+	 * @param pseudo = pseudo du joueur ;
+	 */
 	public Player(String name, String pseudo)
 	{
 		this.name = name ;
 		this.pseudo = pseudo ;
 		this.scorePlayer = 0 ;
 		this.type = this.getClass().getName() ;
-		this.deck = new Vector<Deck>() ;
+		this.card = new Vector<Card>() ;
+	}
+	
+	/**
+	 * @return true / false si le joueur à atteint les 1000go
+	 */
+	public boolean win()
+	{
+		return(this.scorePlayer == 1000 ? true : false) ;
 	}
 
-	
 	/**
 	 * @return le nom du joueur
 	 */
