@@ -29,5 +29,37 @@ public abstract class Card
 		this.type = this.getClass().getName() ;
 	}
 	
+	/**
+	 * @return le nom de la carte
+	 */
+	public String getName()
+	{
+		return this.name ;
+	}
 	
+	/**
+	 * @return le type de la carte
+	 */
+	public String getType()
+	{
+		return this.type ;
+	}
+	
+	/**
+	 * Change le nom de la carte
+	 * @param name = nouveau nom ;
+	 */
+	public void setName(String name)
+	{
+		this.name = name ;
+	}
+	
+	/**
+	 * Change le type de la carte
+	 * @param type = nouveau type ;
+	 */
+	public void setType(String type)
+	{
+		this.type = type ;
+	}
 }

@@ -35,6 +35,11 @@ public abstract class Player
 	 */
 	Vector<Card> card ;
 	
+	/**
+	 * Initialisation de deck
+	 */
+	Deck deck = new Deck();
+	
 	
 	/**
 	 * Constructeur du Player
@@ -58,6 +63,25 @@ public abstract class Player
 		return(this.scorePlayer == 1000 ? true : false) ;
 	}
 
+	/**
+	 * Ajoute une carte au deck du joueur
+	 */
+	public void addCard()
+	{
+		for(int i = 0 ; i < 6 ; i++)
+		{
+			card.addElement(deck.giveCard());
+		}
+	}
+	
+	public void displayDeck()
+	{
+		for(int i = 0 ; i < card.size() ; i++)
+		{
+			System.out.println(card.elementAt(i).getName());
+		}
+	}
+	
 	/**
 	 * @return le nom du joueur
 	 */

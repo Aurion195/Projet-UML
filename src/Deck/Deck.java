@@ -20,6 +20,7 @@ public class Deck
 	public Deck() 
 	{
 		this.card = new Vector<Card> () ;
+		this.addCard();
 	}
 
 	/**
@@ -131,5 +132,33 @@ public class Deck
 		this.addCardBonus() ;
 		this.addCardMalus() ;
 		this.addCardImmu() ;
+		
+		Collections.shuffle(card);
+	}
+	
+	/**
+	 * @return la dernière carte du deck
+	 */
+	public Card giveCard()
+	{
+		if(card.isEmpty())
+		{
+			System.out.println("Error : le deck est vide");
+			return null ;
+		}
+		else
+		{
+			try 														//Pour éviter les erreur
+			{
+				Card obj = card.lastElement() ;
+				card.remove(card.lastElement()) ;
+				return obj ;
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+				return null ;
+			}
+		}
 	}
 }
