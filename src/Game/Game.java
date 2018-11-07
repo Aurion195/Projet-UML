@@ -56,7 +56,7 @@ public class Game
 			{
 				return true ;
 			}
-			else if(tmp.equals("Réseaux down"))
+			else if(tmp.equals("Réseaux down") && e.getName().equals("Réseau Up"))
 			{
 				return true ;
 			}
