@@ -56,7 +56,7 @@ public class Game
 			{
 				return true ;
 			}
-			else if(tmp.equals("Maladie") && e.getName().equals("Mot du docteur"))
+			else if(tmp.equals("Réseaux down"))
 			{
 				return true ;
 			}
