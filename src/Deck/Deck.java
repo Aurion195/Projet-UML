@@ -24,6 +24,30 @@ public class Deck
 	}
 
 	/**
+	 * @return true s'il y a plus de carte / false sinon
+	 */
+	public boolean vide()
+	{
+		return(card.isEmpty() ? true : false) ;
+	}
+	/**
+	 * Rajoute la carte jétée par le joueur au début du jeu
+	 * @param e = carte jetée par la personne ;
+	 */
+	public void jetteCard(Card e)
+	{
+		this.card.insertElementAt(e, 0);
+	}
+	
+	/**
+	 * @return le premier élément de la pioche
+	 */
+	public Card pioche()
+	{
+		return card.lastElement() ;
+	}
+	
+	/**
 	 * Ajoute au vecteur toutes les cartes pour avancer
 	 */
 	private void addCardForwad()
@@ -134,31 +158,5 @@ public class Deck
 		this.addCardImmu() ;
 		
 		Collections.shuffle(card);
-	}
-	
-	/**
-	 * @return la dernière carte du deck
-	 */
-	public Card giveCard()
-	{
-		if(card.isEmpty())
-		{
-			System.out.println("Error : le deck est vide");
-			return null ;
-		}
-		else
-		{
-			try 														//Pour éviter les erreur
-			{
-				Card obj = card.lastElement() ;
-				card.remove(card.lastElement()) ;
-				return obj ;
-			}
-			catch(Exception e)
-			{
-				System.out.println(e.getMessage());
-				return null ;
-			}
-		}
 	}
 }

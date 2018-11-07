@@ -27,6 +27,7 @@ public abstract class Card
 	{
 		this.name = name ;
 		this.type = this.getClass().getName() ;
+		System.out.println(type);
 	}
 	
 	/**

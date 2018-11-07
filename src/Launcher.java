@@ -1,5 +1,5 @@
 import Player.*;
-
+import java.util.* ;
 /**
  * Création du 1000go (jeux de carte façon CERI)
  * @author MATHIEU Thomas
@@ -13,8 +13,6 @@ public class Launcher
 	 */
 	public static void main(String[] args)
 	{
-		Player p = new Human("Thomas", "Auritas") ;
-		p.addCard();
-		p.displayDeck();
+		
 	}
 }
