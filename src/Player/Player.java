@@ -173,9 +173,12 @@ public abstract class Player
 		for(int i = 0 ; i < p.size() ; i++)
 		{
 			Vector<Vector<Card>> x = p.elementAt(i).getPlateau() ;
-			if(!x.elementAt(0).isEmpty() && tmp.equals("Deck.Card_Malus"))
+			if(!x.isEmpty())
 			{
-				return true ;
+				if(!x.elementAt(0).isEmpty() && tmp.equals("Deck.Card_Malus"))
+				{
+					return true ;
+				}
 			}
 		}
 		return false ;
@@ -226,11 +229,70 @@ public abstract class Player
 		return false ;
 	}
 	
-	
+	/**
+	 * Ajoute une carte à la pioche
+	 * @param e = carte à ajouter ;
+	 */
 	public void pioche(Card e)
 	{
 		this.card.addElement(e);
 	}
+	
+	/**
+	 * @param tmp = choix du joueur ;
+	 * @return true si le joueur valide / false sinon
+	 */
+	private boolean valideJetteCard(String tmp)
+	{
+		return((tmp.equals("y") || tmp.equals("n") || tmp.equals("Y") || tmp.equals("N")) ? true : false) ;
+	}
+	
+	/**
+	 * Le joueur va jeter une card de son deck, la fonction va donc permettre de choisir la carte
+	 * et de la supprimer du vecteur de carte du joueur
+	 */
+	public Card jetteCard()
+	{
+		int x = 0 ;
+		String tmp = "" ;
+		String choix = "" ;
+		
+		do {
+			Scanner sc = new Scanner(System.in) ;
+			
+			boolean ok = false ;
+			
+			do {
+				for(int i = 0 ; i < card.size() ; i++)
+				{
+					System.out.println(i+" -             "+card.elementAt(i).getName());
+				}
+				System.out.println("Entrer le numéro de la carte : ");
+				tmp = sc.nextLine() ;
+
+				try {
+					x = Integer.parseInt(tmp) ;
+					if(x >= 0 && x < 6) ok = true ;
+				}
+				catch(Exception e)
+				{
+					System.out.println("Entrer une valeur entière ! ");
+				}
+				sc.close();
+			} while(!ok) ;
+			
+			
+			System.out.println("Etes-vous sur ? (y/n) :");
+			choix = sc.nextLine() ;
+			sc.close();
+		} while(this.valideJetteCard(choix)) ;
+		
+		Card e = card.elementAt(x) ;									//On envoie la carte que l'on veut enlever
+		card.removeElementAt(x);										//On supprime la carte du vecteur
+		
+		return e ;
+	}
+	
 	/**
 	 * @return le nom du joueur
 	 */

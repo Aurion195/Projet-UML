@@ -15,6 +15,7 @@ public class Game
 	public Game()
 	{
 		deck = new Deck() ;
+		player = new Vector() ;
 	}
 	
 	/**
@@ -28,7 +29,7 @@ public class Game
 		{
 			if(!deck.vide())													//Petite Sécurité
 			{
-				player.elementAt(player.size()).addCard(deck.pioche());
+				player.elementAt(player.size()-1).addCard(deck.pioche());
 			}
 		}
 	}
@@ -143,12 +144,19 @@ public class Game
 				
 				if(player.elementAt(i).canPlay(player))
 				{
-					if(this.moveIsLegal(player.elementAt(i).chooseCard(), i, player.elementAt(i).choosePlayer(player)))
-					{
-						/**
-						 * blablabla
-						 */
-					}
+					boolean back = false ;
+					
+					do {
+						if(this.moveIsLegal(player.elementAt(i).chooseCard(), i, player.elementAt(i).choosePlayer(player)))
+						{
+							back = true ;
+						}
+					}while(!back) ;
+				}
+				else
+				{
+					Card carte = player.elementAt(i).jetteCard() ;
+					this.deck.jetteCard(carte);
 				}
 			}
 		}
