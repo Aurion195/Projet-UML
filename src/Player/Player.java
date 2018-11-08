@@ -108,6 +108,7 @@ public abstract class Player
 			{
 				System.out.println(i+" -          "+card.elementAt(i).getName());
 			}
+			
 			System.out.println("\n"+"Entrer une valeur : ");
 			tmp = sc.nextLine() ;
 			sc.close();
@@ -117,27 +118,94 @@ public abstract class Player
 	}
 	
 	/**
+	 * @param tmp = String contenant le choix du joueur ;
+	 * @param i = taille du vector de joueur
+	 * @return true s'il a bien choisit un joueur / false sinons
+	 */
+	private boolean choosePlayer(String tmp, int i) throws Exception
+	{
+		int x = 0 ;
+		
+		try {
+			x = Integer.parseInt(tmp) ;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Entrer un chiffre");
+			return false ;
+		}
+		
+		return(x >= 0 && x < i ? true : false) ;
+	}
+	
+	/**
+	 * @param p = vector de joueur de la partie ;
+	 * @return le plateau du joueur qui a été choisi
+	 * @throws Exception 
+	 */
+	public Vector<Vector<Card>> choosePlayer(Vector<Player> p) throws Exception
+	{
+		String tmp = ""; 
+		
+		do {
+			Scanner sc = new Scanner(System.in) ;
+			for(int i = 0 ; i < p.size(); i++)
+			{
+				System.out.println(i+" -             "+p.elementAt(i).getName());
+			}
+			System.out.println("\n"+"Entrer une valeur : ");
+			tmp = sc.nextLine() ;
+			sc.close();
+		} while(this.choosePlayer(tmp, p.size())) ;
+		
+		return p.elementAt(Integer.parseInt(tmp)).getPlateau() ;
+ 	}
+	
+	
+	/**
 	 * @param tmp = String contenant le type ;
 	 * @return true s'il peut attaquer / false sinon 
 	 */
-	public boolean canAttaque(String tmp)
+	private boolean canAttaque(String tmp,Vector<Player> p)
 	{
-		return(tmp.equals("Deck.Card_Malus") ? true : false) ;
+		if(tmp.equals("Dack.Fete_De_Trop")) return true ;
+		
+		for(int i = 0 ; i < p.size() ; i++)
+		{
+			Vector<Vector<Card>> x = p.elementAt(i).getPlateau() ;
+			if(!x.elementAt(0).isEmpty() && tmp.equals("Deck.Card_Malus"))
+			{
+				return true ;
+			}
+		}
+		return false ;
 	}
+	
+	/**
+	 * @param tmp = String contenant le nom de la carte
+	 * @return true s'il peur avanacer / false sinon
+	 */
+	private boolean canForward(String tmp)
+	{
+		return((tmp.equals("25") || tmp.equals("50") || tmp.equals("75") || 
+				tmp.equals("100") || tmp.equals("200")) ? true : false ) ;
+	}
+	
 	
 	/**
 	 * Permet de regarder si le player peut jouer ou non, en fonction du
 	 * tableau du player
 	 * @return true si le joueur peut jouer / false s'il ne peut pas
 	 */
-	public boolean canPlay()
+	public boolean canPlay(Vector<Player> p)
 	{
+		String tmp = "" ;
 		if(plateau.isEmpty())
 		{
 			for(int i = 0 ; i < card.size(); i++)
 			{
-				String tmp = card.elementAt(i).getName() ;
-				if(tmp.equals("Réseau Up"))
+				tmp = card.elementAt(i).getName() ;
+				if(tmp.equals("Réseau Up") || this.canAttaque(tmp,p))
 				{
 					return true ;
 				}
@@ -145,15 +213,10 @@ public abstract class Player
 		}
 		else
 		{
-			if(plateau.elementAt(2).isEmpty())
-			{
-				return true ;
-			}
-			
 			for(int i = 0 ; i < card.size(); i++)
 			{
-				String tmp = card.elementAt(i).getType() ;
-				if(this.canAttaque(tmp))
+				tmp = card.elementAt(i).getName() ;
+				if(plateau.elementAt(2).isEmpty() && (this.canAttaque(tmp, p) || this.canForward(tmp)))
 				{
 					return true ;
 				}

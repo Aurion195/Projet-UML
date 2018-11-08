@@ -102,6 +102,11 @@ public class Deck
 		for(int i = 0 ; i < 3 ; i++)
 		{
 			this.card.addElement(new Card_Malus("Réseaux down"));
+		}
+		
+		for(int i = 0 ; i < 4 ; i++)
+		{
+			this.card.addElement(new Card_Malus("Fête de trop"));
 		}	
 	}
 	

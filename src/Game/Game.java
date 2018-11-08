@@ -44,6 +44,7 @@ public class Game
 		for(int i = 0 ; i < x.elementAt(2).size() ; i++)
 		{
 			String tmp = x.elementAt(2).elementAt(i) .getName() ;
+			
 			if(tmp.equals("Panne de réveil") && e.getName().equals("Pile Atomique"))
 			{
 				return true ;
@@ -60,6 +61,28 @@ public class Game
 			{
 				return true ;
 			}
+			else if(tmp.equals("Fête de trop") && e.getName().equals("Paracétamol"))
+			{
+				return true ;
+			}
+		}
+		
+		return false ;
+	}
+	
+	/**
+	 * @param tmp = vector de carte du joueur ;
+	 * @param e = carte choisir par le joueur
+	 * @return true si le joueur n'a pas déjà cette carte / false sinon
+	 */
+	private boolean sameCard(Vector<Vector<Card>> tmp, Card e)
+	{
+		if(!tmp.elementAt(2).isEmpty())
+		{
+			for(int i = 0 ; i < tmp.elementAt(2).size() ; i++)
+			{
+				if(tmp.elementAt(2).elementAt(i).getName().equals(e.getName())) return true ;
+			}
 		}
 		
 		return false ;
@@ -71,7 +94,7 @@ public class Game
 	 * @param i = indice du joueur ;
 	 * @return true s'il peut jouer / false sinon 
 	 */
-	public boolean moveIsLegal(Card e, int i)
+	public boolean moveIsLegal(Card e, int i, Vector<Vector<Card>> tmp)
 	{
 		Vector<Vector<Card>> x = player.elementAt(i).getPlateau() ;
 		
@@ -82,10 +105,13 @@ public class Game
 				return true ;
 			}
 		}
-		if(e.getType().equals("Deck.Card_Malus") && !x.elementAt(0).isEmpty())
+		if(e.getType().equals("Deck.Fete_De_Trop")) return true ;
+		
+		if(e.getType().equals("Deck.Card_Malus") && !tmp.elementAt(0).isEmpty() &&!this.sameCard(tmp, e))
 		{
 			return true ;
 		}
+		
 		if(e.getType().equals("Deck.Card_Bonus"))
 		{
 			if(!x.elementAt(2).isEmpty())
@@ -96,10 +122,16 @@ public class Game
 				}
 			}
 		}
+		
 		return false ;
 	}
 	
-	public void beginGame()
+	/**
+	 * Fonction qui va gérer les tours du jeu
+	 * 
+	 * @throws Exception
+	 */
+	public void beginGame() throws Exception
 	{
 		boolean win = false ;
 		
@@ -107,11 +139,11 @@ public class Game
 		{
 			for(int i = 0 ; i < this.player.size() ; i++)
 			{
-				
 				player.elementAt(i).pioche(deck.pioche());
-				if(player.elementAt(i).canPlay())
+				
+				if(player.elementAt(i).canPlay(player))
 				{
-					if(this.moveIsLegal(player.elementAt(i).chooseCard(), i))
+					if(this.moveIsLegal(player.elementAt(i).chooseCard(), i, player.elementAt(i).choosePlayer(player)))
 					{
 						/**
 						 * blablabla
