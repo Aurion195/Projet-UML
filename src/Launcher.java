@@ -16,8 +16,10 @@ public class Launcher
 	public static void main(String[] args) throws Exception
 	{
 		Player p = new Human("Thomas","Auritas") ;
+		Player p1 = new Human("Jérémy", "Grosse merde") ;
 		Game game = new Game() ;
 		game.addPlayer(p);
+		game.addPlayer(p1);
 		game.beginGame();
 	}
 }

@@ -27,10 +27,7 @@ public class Game
 		this.player.addElement(p);
 		for(int i = 0 ; i < 6 ; i++)
 		{
-			if(!deck.vide())													//Petite Sécurité
-			{
-				player.elementAt(player.size()-1).addCard(deck.pioche());
-			}
+			player.elementAt(player.size()-1).addCard(deck.pioche());
 		}
 	}
 	
@@ -48,22 +45,27 @@ public class Game
 			
 			if(tmp.equals("Panne de réveil") && e.getName().equals("Pile Atomique"))
 			{
+				x.removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Travaux") && e.getName().equals("Bus Magique"))
 			{
+				x.removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Maladie") && e.getName().equals("Mot du docteur"))
 			{
+				x.removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Réseaux down") && e.getName().equals("Réseau Up"))
 			{
+				x.removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Fête de trop") && e.getName().equals("Paracétamol"))
 			{
+				x.removeElementAt(i);
 				return true ;
 			}
 		}
@@ -98,21 +100,29 @@ public class Game
 	public boolean moveIsLegal(Card e, int i, Vector<Vector<Card>> tmp)
 	{
 		Vector<Vector<Card>> x = player.elementAt(i).getPlateau() ;
-		
-		if(e.getType().equals("Deck.Card_Forward"))
+
+		if(e.getName().equals("Réseau Up") && tmp.elementAt(0).isEmpty())
 		{
-			if(x.elementAt(2).isEmpty() && !x.elementAt(0).isEmpty())
-			{
-				return true ;
-			}
-		}
-		if(e.getType().equals("Deck.Fete_De_Trop")) return true ;
-		
-		if(e.getType().equals("Deck.Card_Malus") && !tmp.elementAt(0).isEmpty() &&!this.sameCard(tmp, e))
-		{
+			tmp.elementAt(0).addElement(e);
 			return true ;
 		}
 		
+		if(e.getType().equals("Deck.Fete_De_Trop") && !this.sameCard(tmp, e)) 
+		{
+			tmp.elementAt(2).addElement(e);
+			return true ;
+		}
+
+		if(e.getType().equals("Deck.Card_Malus") && !tmp.elementAt(0).isEmpty() &&!this.sameCard(tmp, e))
+		{
+			tmp.elementAt(2).addElement(e);
+			return true ;
+		}
+		else
+		{
+			System.out.println("Le joueur n'a pas posé de carte Réseau Up ou alors il possède déjà cette carte malus ! ");
+		}
+
 		if(e.getType().equals("Deck.Card_Bonus"))
 		{
 			if(!x.elementAt(2).isEmpty())
@@ -122,9 +132,24 @@ public class Game
 					return true ;
 				}
 			}
+			else
+			{
+				System.out.println("Vous n'avez pas de malus");
+			}
 		}
-		
 		return false ;
+	}
+	
+	/**
+	 * Affiche les caractéristiques du joueur (nom et score)
+	 */
+	private void displayPlayer()
+	{
+		for(int i = 0 ; i < player.size() ; i++)
+		{
+			System.out.println("Nom = "+player.elementAt(i).getName()+" , score = "+player.elementAt(i).getScorePlayer()+"\n");
+			player.elementAt(i).displayPlateau();
+		}
 	}
 	
 	/**
@@ -135,29 +160,55 @@ public class Game
 	public void beginGame() throws Exception
 	{
 		boolean win = false ;
-		
+		Card e ;
 		while(!win)
 		{
 			for(int i = 0 ; i < this.player.size() ; i++)
 			{
+				System.out.println("\n \n \n \n");
+				System.out.println("Tour du joueur : "+player.elementAt(i).getName());
 				player.elementAt(i).pioche(deck.pioche());
+				System.out.println("Le joueur pioche une carte");
 				
 				if(player.elementAt(i).canPlay(player))
 				{
-					boolean back = false ;
-					
 					do {
-						if(this.moveIsLegal(player.elementAt(i).chooseCard(), i, player.elementAt(i).choosePlayer(player)))
+						e = player.elementAt(i).chooseCard() ;
+						
+						if(e.getName().equals("Réseau Up"))
 						{
-							back = true ;
+							if(player.elementAt(i).getPlateau().elementAt(0).isEmpty())
+							{
+								player.elementAt(i).placeCard(e, 0);
+							}
+							
+							break ;
 						}
-					}while(!back) ;
+						
+						if(e.getType().equals("Deck.Card_Forward") && !player.elementAt(i).getPlateau().elementAt(0).isEmpty()
+								&& player.elementAt(i).getPlateau().elementAt(2).isEmpty())
+						{
+							player.elementAt(i).placeCard(e, 1);
+							break ;
+						}
+						
+						if(!e.getName().equals("Réseau Up") && !e.getType().equals("Deck.Card_Forward") && this.moveIsLegal(e, i, player.elementAt(i).choosePlayer(player,i))) 
+						{
+							break ;
+						}
+						
+						
+						System.out.println("La carte choisit ne peut être posé, réesseyer !! ");
+					} while(true) ; 
 				}
 				else
 				{
+					System.out.println("Le joueur jette une carte");
 					Card carte = player.elementAt(i).jetteCard() ;
 					this.deck.jetteCard(carte);
 				}
+				System.out.println("Fin du tour");
+				this.displayPlayer() ;
 			}
 		}
 	}
