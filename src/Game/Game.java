@@ -6,7 +6,14 @@ import java.util.* ;
 
 public class Game 
 {
+	/**
+	 * Vector de player
+	 */
 	Vector<Player> player ;
+	
+	/**
+	 * Deck du jeu
+	 */
 	Deck deck ;
 	
 	/**
@@ -74,6 +81,7 @@ public class Game
 	}
 	
 	/**
+	 * Fonction permettant de regarder le joueur possède déjà la carte
 	 * @param tmp = vector de carte du joueur ;
 	 * @param e = carte choisir par le joueur
 	 * @return true si le joueur n'a pas déjà cette carte / false sinon
@@ -95,6 +103,7 @@ public class Game
 	 * Verifie si le move que le joueur veut faire est légal
 	 * @param e = carte ;
 	 * @param i = indice du joueur ;
+	 * @param tmp = plateau du joueur ;
 	 * @return true s'il peut jouer / false sinon 
 	 */
 	public boolean moveIsLegal(Card e, int i, Vector<Vector<Card>> tmp)
@@ -154,8 +163,7 @@ public class Game
 	
 	/**
 	 * Fonction qui va gérer les tours du jeu
-	 * 
-	 * @throws Exception
+	 * @throws Exception = attrapre l'exception !
 	 */
 	public void beginGame() throws Exception
 	{

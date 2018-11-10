@@ -4,8 +4,8 @@ import java.util.*;
 /**
  * Classe réprésentant la pioche du jeu, contient toutes les cartes au début
  * puis aprés distribution va les donner au Player
- * @author uapv1703778
- *
+ * @author MATHIEU Thomas
+ * @author GARCIA Jérémy
  */
 public class Deck 
 {
@@ -24,12 +24,14 @@ public class Deck
 	}
 
 	/**
+	 * Vérifie si le vector de card est vide
 	 * @return true s'il y a plus de carte / false sinon
 	 */
 	public boolean vide()
 	{
 		return(card.isEmpty() ? true : false) ;
 	}
+	
 	/**
 	 * Rajoute la carte jétée par le joueur au début du jeu
 	 * @param e = carte jetée par la personne ;
@@ -40,6 +42,7 @@ public class Deck
 	}
 	
 	/**
+	 * Pioche une carte
 	 * @return le premier élément de la pioche
 	 */
 	public Card pioche()

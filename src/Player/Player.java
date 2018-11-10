@@ -69,6 +69,7 @@ public abstract class Player
 	}
 	
 	/**
+	 * Vérifie si un joueur a atteint les 1000go
 	 * @return true / false si le joueur à atteint les 1000go
 	 */
 	public boolean win()
@@ -182,6 +183,7 @@ public abstract class Player
 	}
 	
 	/**
+	 * Permet au joueur de choisir une carte
 	 * @return la carte que le joueur a choisit de jouer
 	 */
 	public Card chooseCard()
@@ -214,9 +216,11 @@ public abstract class Player
 	}
 	
 	/**
+	 * Permet de valider si le choix du joueur est un int ou non
 	 * @param tmp = String contenant le choix du joueur ;
 	 * @param i = taille du vector de joueur
 	 * @return true s'il a bien choisit un joueur / false sinons
+	 * @throws Exception = attrape l'exception !
 	 */
 	private boolean choosePlayer(String tmp, int i) throws Exception
 	{
@@ -234,10 +238,11 @@ public abstract class Player
 	}
 	
 	/**
+	 * Permet de choisir le joueur que l'on veut attaquer
 	 * @param p = vector de joueur de la partie ;
 	 * @param x = Entier contenant la position du joueurs courant ;
 	 * @return le plateau du joueur qui a été choisi
-	 * @throws Exception 
+	 * @throws Exception = attrape l'exception
 	 */
 	public Vector<Vector<Card>> choosePlayer(Vector<Player> p, int x) throws Exception
 	{
@@ -258,10 +263,12 @@ public abstract class Player
 	
 	
 	/**
+	 * Permet de voir si on peut attaquer ou pas
 	 * @param tmp = String contenant le type ;
+	 * @param p = vector contenant tous les joueurs ;
 	 * @return true s'il peut attaquer / false sinon 
 	 */
-	private boolean canAttaque(String tmp,Vector<Player> p)
+	private boolean canAttaque(String tmp, Vector<Player> p)
 	{
 		if(tmp.equals("Dack.Fete_De_Trop")) return true ;
 		
@@ -280,6 +287,7 @@ public abstract class Player
 	}
 	
 	/**
+	 * Permet de voir si le joueur peut avancer ou non
 	 * @param tmp = String contenant le nom de la carte
 	 * @return true s'il peur avanacer / false sinon
 	 */
@@ -289,6 +297,11 @@ public abstract class Player
 				tmp.equals("100") || tmp.equals("200")) ? true : false ) ;
 	}
 	
+	/**
+	 * Regarde si les joueurs ont une carte Réseau Up active
+	 * @param p = vector de players
+	 * @return true si un jouer a pas de RU active / false sinon
+	 */
 	private boolean cardRuActive(Vector<Player> p)
 	{
 		for(int i = 0 ; i < p.size() ; i++)
@@ -306,6 +319,7 @@ public abstract class Player
 	/**
 	 * Permet de regarder si le player peut jouer ou non, en fonction du
 	 * tableau du player
+	 * @param p = vectori contenant tous les joueurs ;
 	 * @return true si le joueur peut jouer / false s'il ne peut pas
 	 */
 	public boolean canPlay(Vector<Player> p)
@@ -360,6 +374,7 @@ public abstract class Player
 	}
 	
 	/**
+	 * Fonction permettant de valider un choix
 	 * @param tmp = choix du joueur ;
 	 * @return true si le joueur valide / false sinon
 	 */
@@ -371,6 +386,7 @@ public abstract class Player
 	/**
 	 * Le joueur va jeter une card de son deck, la fonction va donc permettre de choisir la carte
 	 * et de la supprimer du vecteur de carte du joueur
+	 * @return la carte a jeter 
 	 */
 	public Card jetteCard()
 	{
@@ -413,6 +429,7 @@ public abstract class Player
 	}
 	
 	/**
+	 * Nom du joueur
 	 * @return le nom du joueur
 	 */
 	public String getName() 
@@ -421,6 +438,7 @@ public abstract class Player
 	}
 
 	/**
+	 * Type du joueur
 	 * @return le type du joueur
 	 */
 	public String getType() 
@@ -429,6 +447,7 @@ public abstract class Player
 	}
 
 	/**
+	 * Pseudo du joueur
 	 * @return le pseudo du joueur
 	 */
 	public String getPseudo() 
@@ -437,6 +456,7 @@ public abstract class Player
 	}
 
 	/**
+	 * Score du playeur
 	 * @return le score du joueur
 	 */
 	public int getScorePlayer() 
@@ -444,13 +464,18 @@ public abstract class Player
 		return scorePlayer;
 	}
 
+	/**
+	 * Plateau du joueur
+	 * @return le plateau du joueur
+	 */
 	public Vector<Vector<Card>> getPlateau()
 	{
 		return this.plateau ;
 	}
 	
 	/**
-	 * @param name the name to set
+	 * Change le nom du joueur
+	 * @param name = nouveau nom ;
 	 */
  	public void setName(String name) 
 	{
