@@ -223,9 +223,9 @@ public class Game
 	 */
 	public void beginGame() throws Exception
 	{
-		boolean win = false ;
+		boolean winer = false ;
 		Card e ;
-		while(!win)
+		while(!winer && this.endOfGame())
 		{
 			for(int i = 0 ; i < this.player.size() ; i++)
 			{
@@ -304,11 +304,43 @@ public class Game
 					back = false ;
 				}
 
+				if(this.player.elementAt(i).win())
+				{
+					System.out.println("Le grand gagnat du concours est :"+this.player.elementAt(i).getPseudo());
+					return ;
+				}
 				
 				System.out.println("Fin du tour \n \n");
 				this.displayPlayer() ;
 			}
 			
 		}
+	}
+	
+	/**
+	 * Regarde si le deck est vide, dans le cas ou il est vide il affiche le pseudo du joueur qui a le plus gros score
+	 * @return true si la pioche est vide / false sinon 
+	 */
+	private boolean endOfGame()
+	{
+		if(deck.vide())
+		{
+			String p = "" ;
+			int max = 0 ;
+			
+			for(int i = 0 ; i < this.player.size() ; i++)
+			{
+				if(player.elementAt(i).getScorePlayer() > max)
+				{
+					max = player.elementAt(i).getScorePlayer() ;
+					p = player.elementAt(i).getPseudo() ;
+				}
+			}
+			
+			System.out.println("Le grand vainqueur est :"+p) ;
+			return true ;
+		}
+		
+		return false ;
 	}
 }
