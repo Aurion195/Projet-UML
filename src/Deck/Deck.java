@@ -47,7 +47,8 @@ public class Deck
 	 */
 	public Card pioche()
 	{
-		return card.remove(card.size()-1) ;
+		int x = card.size() -1 ;
+		return card.remove(x) ;
 	}
 	
 	/**

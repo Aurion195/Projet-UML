@@ -20,6 +20,7 @@ public abstract class Player
 	 */
 	String type ;
 	
+	
 	/**
 	 * Pseudo du joueur
 	 */
@@ -56,6 +57,7 @@ public abstract class Player
 		this.constructeurPlateau() ;
 	}
 	
+
 	/**
 	 * Initialise le plateau du joueur, en y insérant le vector de card
 	 */
@@ -126,7 +128,7 @@ public abstract class Player
 		
 		try {
 			x = Integer.parseInt(tmp) ;
-			return((x >= 0 && x < card.size()) ? true : false) ;
+			return((x >= 0 && x <= card.size()) ? true : false) ;
 		}
 		catch(Exception e)
 		{
@@ -149,9 +151,11 @@ public abstract class Player
 			if(card.elementAt(i).getName().equals(e.getName()))
 			{
 				card.removeElementAt(i);
+				return ;
 			}
 		}
 	}
+	
 	/**
 	 * Regarde si le joueur n'a pas de carte RU, s'il n'en a pas 
 	 * le jeu va proposer au joueur de lui poser !
@@ -183,6 +187,20 @@ public abstract class Player
 	}
 	
 	/**
+	 * Regarde si le vecteur de carte du joueur contient une carte Réseau Up
+	 * @return true s'il contient / false sinon
+	 */
+	private boolean containtRu()
+	{
+		for(int i = 0 ; i < card.size(); i++)
+		{
+			if(card.elementAt(i).getName().equals("Réseau Up")) return true ;
+		}
+		
+		return false ;
+	}
+	
+	/**
 	 * Permet au joueur de choisir une carte
 	 * @return la carte que le joueur a choisit de jouer
 	 */
@@ -192,11 +210,14 @@ public abstract class Player
 		
 		if(plateau.elementAt(0).isEmpty())
 		{
-			Card e = this.reseauUp() ;
-			if(e != null)
+			if(this.containtRu())
 			{
-				System.out.println("Le joueur pose la carte Réseau Up");
-				return  e ;
+				Card e = this.reseauUp() ;
+				if(e != null)
+				{
+					System.out.println("Le joueur pose la carte Réseau Up");
+					return  e ;
+				}
 			}
 		}
 		
@@ -206,11 +227,16 @@ public abstract class Player
 			{
 				System.out.println(i+" -          "+card.elementAt(i).getName());
 			}
-			
+			System.out.println(card.size()+" -          jetter une carte");
 			System.out.println("\n"+"Entrer une valeur : ");
 			tmp = sc.nextLine() ;
 		} while(!this.chooseCard(tmp)) ;
 		
+		if(Integer.parseInt(tmp) == card.size())
+		{
+			this.jetteCard() ;
+			return null ;
+		}
 		Card e = card.elementAt(Integer.parseInt(tmp)) ;
 		return e ;
 	}
@@ -219,16 +245,17 @@ public abstract class Player
 	 * Permet de valider si le choix du joueur est un int ou non
 	 * @param tmp = String contenant le choix du joueur ;
 	 * @param i = taille du vector de joueur
+	 * @param joueur = int contenant la place du joeur (eviter de se choisir)
 	 * @return true s'il a bien choisit un joueur / false sinons
 	 * @throws Exception = attrape l'exception !
 	 */
-	private boolean choosePlayer(String tmp, int i) throws Exception
+	private boolean choosePlayer(String tmp, int i, int joueur) throws Exception
 	{
 		int x = 0 ;
 		
 		try {
 			x = Integer.parseInt(tmp) ;
-			return(x >= 0 && x < i ? true : false) ;
+			return(x >= 0 && x < i && x != joueur ? true : false) ;
 		}
 		catch(Exception e)
 		{
@@ -256,96 +283,22 @@ public abstract class Player
 			}
 			System.out.println("\n"+"Choisissez un joueur : ");
 			tmp = sc.nextLine() ;
-		} while(!this.choosePlayer(tmp, p.size())) ;
+		} while(!this.choosePlayer(tmp, p.size(), x) ) ;
 		
 		return p.elementAt(Integer.parseInt(tmp)).getPlateau() ;
  	}
 	
 	
 	/**
-	 * Permet de voir si on peut attaquer ou pas
-	 * @param tmp = String contenant le type ;
-	 * @param p = vector contenant tous les joueurs ;
-	 * @return true s'il peut attaquer / false sinon 
+	 * Regarde si le joueur possède la carte fête de trop
+	 * @return true s'il là / false sinon
 	 */
-	private boolean canAttaque(String tmp, Vector<Player> p)
+	public boolean cardFeteDeTrop()
 	{
-		if(tmp.equals("Dack.Fete_De_Trop")) return true ;
-		
-		for(int i = 0 ; i < p.size() ; i++)
+		if(plateau.elementAt(2).size()-1 == 0)
 		{
-			Vector<Vector<Card>> x = p.elementAt(i).getPlateau() ;
-			if(!x.isEmpty())
-			{
-				if(!x.elementAt(0).isEmpty() && tmp.equals("Deck.Card_Malus"))
-				{
-					return true ;
-				}
-			}
+			return(plateau.elementAt(2).elementAt(0).getName().equals("Fête de trop") ? true : false) ;
 		}
-		return false ;
-	}
-	
-	/**
-	 * Permet de voir si le joueur peut avancer ou non
-	 * @param tmp = String contenant le nom de la carte
-	 * @return true s'il peur avanacer / false sinon
-	 */
-	private boolean canForward(String tmp)
-	{
-		return((tmp.equals("25") || tmp.equals("50") || tmp.equals("75") || 
-				tmp.equals("100") || tmp.equals("200")) ? true : false ) ;
-	}
-	
-	/**
-	 * Regarde si les joueurs ont une carte Réseau Up active
-	 * @param p = vector de players
-	 * @return true si un jouer a pas de RU active / false sinon
-	 */
-	private boolean cardRuActive(Vector<Player> p)
-	{
-		for(int i = 0 ; i < p.size() ; i++)
-		{
-			Vector<Vector<Card>> tmp = p.elementAt(i).getPlateau() ;
-			for(int j = 0 ; j < tmp.size() ; i++)
-			{
-				if(!tmp.elementAt(0).isEmpty()) return true ;
-			}
-		}
-		
-		return false ;
-	}
-	
-	/**
-	 * Permet de regarder si le player peut jouer ou non, en fonction du
-	 * tableau du player
-	 * @param p = vectori contenant tous les joueurs ;
-	 * @return true si le joueur peut jouer / false s'il ne peut pas
-	 */
-	public boolean canPlay(Vector<Player> p)
-	{
-		if(plateau.elementAt(0).isEmpty())
-		{
-			for(int i = 0 ; i < card.size(); i++)
-			{
-				if(card.elementAt(i).getName().equals("Réseau Up") || (this.canAttaque(card.elementAt(i).getName(),p) && this.cardRuActive(p)))
-				{
-					return true ;
-				}
-			}
-		}
-		else
-		{
-			for(int i = 0 ; i < card.size(); i++)
-			{
-				if(this.plateau.elementAt(2).isEmpty() && this.canForward(card.elementAt(i).getName())) return true ;
-				
-				if(this.canAttaque(card.elementAt(i).getName(), p)) return true ;
-				
-				if(this.card.elementAt(i).getName().equals("Fête de trop")) return true ;
-			}
-		}
-		
 		return false ;
 	}
 	
@@ -364,6 +317,7 @@ public abstract class Player
 		this.delCard(e) ;
 		plateau.elementAt(x).addElement(e);
 	}
+	
 	/**
 	 * Ajoute une carte à la pioche
 	 * @param e = carte à ajouter ;

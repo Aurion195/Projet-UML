@@ -21,8 +21,8 @@ public class Game
 	 */
 	public Game()
 	{
-		deck = new Deck() ;
-		player = new Vector() ;
+		this.deck = new Deck() ;
+		this.player = new Vector<Player>() ;
 	}
 	
 	/**
@@ -39,6 +39,51 @@ public class Game
 	}
 	
 	/**
+	 * Supprime les malus que la carte d'immunité protège
+	 * @param tmp = plateau de jeu du joueur ;
+	 * @param e = carte choisit par le joueur ;
+	 */
+	private void delMalus(Vector<Vector<Card>> tmp, Card e)
+	{
+		if(!tmp.elementAt(2).isEmpty())
+		{
+			for(int i = 0 ; i < tmp.elementAt(2).size() ; i++)
+			{
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Couche-tôt") && e.getName().equals("Panne de réveil"))
+				{
+					tmp.elementAt(2).removeElementAt(i);
+				}
+				
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Hélicoptère") && e.getName().equals("Travaux"))
+				{
+					tmp.elementAt(2).removeElementAt(i);
+				}
+				
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Santé de fer") && e.getName().equals("Maladie"))
+				{
+					tmp.elementAt(2).removeElementAt(i);
+				}
+				
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Proxy") && (e.getName().equals("Fête de trop") || e.getName().equals("Réseau down")))
+				{
+					tmp.elementAt(2).removeElementAt(i);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Pose la carte Immunité et enlève les malus que cette carte protège
+	 * @param tmp = plateau du joueur ;
+	 * @param e = carte choisit par le joueur ;
+	 */
+	private void poseCardImmu(Vector<Vector<Card>> tmp, Card e)
+	{
+		tmp.elementAt(3).addElement(e);
+		this.delMalus(tmp, e) ;
+	}
+	
+	/**
 	 * Regarde si la carte poser peut annuler
 	 * @param x = plateau du joueur ;
 	 * @param e = carte jouer ;
@@ -48,31 +93,31 @@ public class Game
 	{
 		for(int i = 0 ; i < x.elementAt(2).size() ; i++)
 		{
-			String tmp = x.elementAt(2).elementAt(i) .getName() ;
+			String tmp = x.elementAt(2).elementAt(i).getName() ;
 			
 			if(tmp.equals("Panne de réveil") && e.getName().equals("Pile Atomique"))
 			{
-				x.removeElementAt(i);
+				x.elementAt(2).removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Travaux") && e.getName().equals("Bus Magique"))
 			{
-				x.removeElementAt(i);
+				x.elementAt(2).removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Maladie") && e.getName().equals("Mot du docteur"))
 			{
-				x.removeElementAt(i);
+				x.elementAt(2).removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Réseaux down") && e.getName().equals("Réseau Up"))
 			{
-				x.removeElementAt(i);
+				x.elementAt(2).removeElementAt(i);
 				return true ;
 			}
 			else if(tmp.equals("Fête de trop") && e.getName().equals("Paracétamol"))
 			{
-				x.removeElementAt(i);
+				x.elementAt(2).removeElementAt(i);
 				return true ;
 			}
 		}
@@ -100,6 +145,28 @@ public class Game
 	}
 	
 	/**
+	 * Vérifie si le joueur ne possède pas de carte d'immunité pour empèche la carte choisir par le joueur
+	 * @param tmp = plateau du joueur choisit par l'attaque ;
+	 * @param e = carte choisi par le joueur ;
+	 * @return true s'il peut jouer / false sinon
+	 */
+	private boolean cardImmu(Vector<Vector<Card>> tmp, Card e)
+	{
+		if(!tmp.elementAt(3).isEmpty())
+		{
+			for(int i = 0 ; i < tmp.elementAt(3).size() ; i++)
+			{
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Couche-tôt") && e.getName().equals("Panne de réveil")) return false ;
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Hélicoptère") && e.getName().equals("Travaux")) return false ;
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Santé de fer") && e.getName().equals("Maladie")) return false ;
+				if(tmp.elementAt(3).elementAt(i).getName().equals("Proxy") && (e.getName().equals("Fête de trop") || e.getName().equals("Réseau down"))) return false ;
+			}
+		}
+		
+		return true ;
+	}
+	
+	/**
 	 * Verifie si le move que le joueur veut faire est légal
 	 * @param e = carte ;
 	 * @param i = indice du joueur ;
@@ -108,44 +175,33 @@ public class Game
 	 */
 	public boolean moveIsLegal(Card e, int i, Vector<Vector<Card>> tmp)
 	{
+		if(!this.cardImmu(tmp, e)) return false ;
+		
 		Vector<Vector<Card>> x = player.elementAt(i).getPlateau() ;
 
-		if(e.getName().equals("Réseau Up") && tmp.elementAt(0).isEmpty())
-		{
-			tmp.elementAt(0).addElement(e);
-			return true ;
-		}
-		
-		if(e.getType().equals("Deck.Fete_De_Trop") && !this.sameCard(tmp, e)) 
+		if(e.getName().equals("Deck.Fête_De_Trop") && !this.sameCard(tmp, e)) 
 		{
 			tmp.elementAt(2).addElement(e);
 			return true ;
 		}
-
-		if(e.getType().equals("Deck.Card_Malus") && !tmp.elementAt(0).isEmpty() &&!this.sameCard(tmp, e))
+		
+		if(e.getName().equals("Réseau down") && !tmp.elementAt(0).isEmpty() && !this.sameCard(tmp, e))
+		{
+			System.out.println("Chute du réseau");
+			tmp.elementAt(0).removeElementAt(0);
+			return true ;
+		}
+		
+		if(e.getType().equals("Deck.Card_Malus") && !tmp.elementAt(0).isEmpty() && !this.sameCard(tmp, e) && this.cardImmu(tmp, e))
 		{
 			tmp.elementAt(2).addElement(e);
 			return true ;
 		}
 		else
 		{
-			System.out.println("Le joueur n'a pas posé de carte Réseau Up ou alors il possède déjà cette carte malus ! ");
+			System.out.println("Vous ne pouvez pas poser cette carte");
 		}
 
-		if(e.getType().equals("Deck.Card_Bonus"))
-		{
-			if(!x.elementAt(2).isEmpty())
-			{
-				if(this.annuleMalus(x, e))
-				{
-					return true ;
-				}
-			}
-			else
-			{
-				System.out.println("Vous n'avez pas de malus");
-			}
-		}
 		return false ;
 	}
 	
@@ -177,22 +233,25 @@ public class Game
 				System.out.println("Tour du joueur : "+player.elementAt(i).getName());
 				player.elementAt(i).pioche(deck.pioche());
 				System.out.println("Le joueur pioche une carte");
-				
-				if(player.elementAt(i).canPlay(player))
+				boolean back = true ;
+				if(back)
 				{
+					
 					do {
+						System.out.println("0 \n");
 						e = player.elementAt(i).chooseCard() ;
 						
-						if(e.getName().equals("Réseau Up"))
+						//Si le joueur choisit de jeter une carte
+						if(e == null) break ;
+						
+						//Si la carte choisit est une carte Réseau up
+						if(e.getName().equals("Réseau Up") && player.elementAt(i).getPlateau().elementAt(0).isEmpty())
 						{
-							if(player.elementAt(i).getPlateau().elementAt(0).isEmpty())
-							{
-								player.elementAt(i).placeCard(e, 0);
-							}
-							
+							player.elementAt(i).placeCard(e, 0);
 							break ;
 						}
 						
+						//Si la carte choisit est une carte pour avancer et qu'il a une carte Réseau Up active et pas de malus
 						if(e.getType().equals("Deck.Card_Forward") && !player.elementAt(i).getPlateau().elementAt(0).isEmpty()
 								&& player.elementAt(i).getPlateau().elementAt(2).isEmpty())
 						{
@@ -200,24 +259,56 @@ public class Game
 							break ;
 						}
 						
-						if(!e.getName().equals("Réseau Up") && !e.getType().equals("Deck.Card_Forward") && this.moveIsLegal(e, i, player.elementAt(i).choosePlayer(player,i))) 
+						//Si la carte choisit est une carte pour avancer et qu'il a seulement la carte fete de trop
+						if(e.getType().equals("Deck.Card_Forward") && !player.elementAt(i).getPlateau().elementAt(0).isEmpty() && !player.elementAt(i).getPlateau().elementAt(2).isEmpty())
 						{
+							System.out.println("0");
+							if(player.elementAt(i).cardFeteDeTrop() && (e.getName().equals("25") || e.getName().equals("50"))) 
+							{
+								player.elementAt(i).placeCard(e, 1);
+								break ;
+							}
+						}
+						
+						//Si la carte jouer est un bonus qui peut annuler des malus que le joueur possède
+						if(e.getType().equals("Deck.Card_Bonus") && !player.elementAt(i).getPlateau().elementAt(2).isEmpty() &&
+								this.annuleMalus(player.elementAt(i).getPlateau(), e))
+						{
+							this.annuleMalus(player.elementAt(i).getPlateau(), e) ;
+							player.elementAt(i).delCard(e);
+							break ;
+						}
+						
+						//Lorsque le joueur pose une carte immunité seulement quand il a une carte Réseau up active
+						//Il pioche alors une carte
+						if(e.getType().equals("Deck.Card_Immu") && !player.elementAt(i).getPlateau().elementAt(0).isEmpty())
+						{
+							this.poseCardImmu(player.elementAt(i).getPlateau(), e) ;
+							player.elementAt(i).delCard(e);
+							player.elementAt(i).pioche(deck.pioche());
+							break ;
+						}
+						
+						//Lorsque le joueur pose une carte malus il va choisir le joueur, et la fonction va voir qu'il n'a pas de carte immu qui va rendre le bonus inutilisable 
+						if(e.getType().equals("Deck.Card_Malus") && 
+							this.moveIsLegal(e, i, player.elementAt(i).choosePlayer(player,i))) 
+						{
+							player.elementAt(i).delCard(e);
+
 							break ;
 						}
 						
 						
 						System.out.println("La carte choisit ne peut être posé, réesseyer !! ");
 					} while(true) ; 
+					back = false ;
 				}
-				else
-				{
-					System.out.println("Le joueur jette une carte");
-					Card carte = player.elementAt(i).jetteCard() ;
-					this.deck.jetteCard(carte);
-				}
-				System.out.println("Fin du tour");
+
+				
+				System.out.println("Fin du tour \n \n");
 				this.displayPlayer() ;
 			}
+			
 		}
 	}
 }
