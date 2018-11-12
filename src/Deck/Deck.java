@@ -56,30 +56,11 @@ public class Deck
 	 */
 	private void addCardForwad()
 	{
-		for(int i = 0 ; i < 10 ; i++)
-		{
-			this.card.addElement(new Card_Forward("25"));
-		}
-		
-		for(int i = 0 ; i < 10 ; i++)
-		{
-			this.card.addElement(new Card_Forward("50"));
-		}
-		
-		for(int i = 0 ; i < 10 ; i++)
-		{
-			this.card.addElement(new Card_Forward("75"));
-		}
-		
-		for(int i = 0 ; i < 12 ; i++)
-		{
-			this.card.addElement(new Card_Forward("100"));
-		}
-		
-		for(int i = 0 ; i < 4 ; i++)
-		{
-			this.card.addElement(new Card_Forward("200"));
-		}	
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("25"));
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("50"));
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("75"));
+		for(int i = 0 ; i < 12 ; i++) this.card.addElement(new Card_Forward("100"));
+		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Card_Forward("200"));
 	}
 	
 	/**
@@ -87,31 +68,11 @@ public class Deck
 	 */
 	private void addCardMalus()
 	{
-		for(int i = 0 ; i < 3 ; i++)
-		{
-	
-			this.card.addElement(new Card_Malus("Panne de réveil"));
-		}
-		
-		for(int i = 0 ; i < 3 ; i++)
-		{
-			this.card.addElement(new Card_Malus("Travaux"));
-		}
-		
-		for(int i = 0 ; i < 3 ; i++)
-		{
-			this.card.addElement(new Card_Malus("Maladie"));
-		}
-		
-		for(int i = 0 ; i < 3 ; i++)
-		{
-			this.card.addElement(new Card_Malus("Réseaux down"));
-		}
-		
-		for(int i = 0 ; i < 4 ; i++)
-		{
-			this.card.addElement(new Card_Malus("Fête de trop"));
-		}	
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Panne de réveil"));
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Travaux"));
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Maladie"));
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Réseaux down"));
+		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Card_Malus("Fête de trop"));	
 	}
 	
 	/**
@@ -119,30 +80,12 @@ public class Deck
 	 */
 	private void addCardBonus()
 	{
-		for(int i = 0 ; i < 6 ; i++)
-		{
-			this.card.addElement(new Card_Bonus("Pile Atomique"));
-		}
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Pile Atomique"));
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Bus Magique"));
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Mot du docteur"));
+		for(int i = 0 ; i < 14 ; i++) this.card.addElement(new Card_Bonus("Réseau Up"));
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Paracétamol"));
 		
-		for(int i = 0 ; i < 6 ; i++)
-		{
-			this.card.addElement(new Card_Bonus("Bus Magique"));
-		}
-		
-		for(int i = 0 ; i < 6 ; i++)
-		{
-			this.card.addElement(new Card_Bonus("Mot du docteur"));
-		}
-		
-		for(int i = 0 ; i < 14 ; i++)
-		{
-			this.card.addElement(new Card_Bonus("Réseau Up"));
-		}
-		
-		for(int i = 0 ; i < 6 ; i++)
-		{
-			this.card.addElement(new Card_Bonus("Paracétamol"));
-		}
 	}
 	
 	/**
