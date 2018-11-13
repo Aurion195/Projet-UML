@@ -70,7 +70,7 @@ public abstract class Player
 		plateau.addElement(new Vector<Card>());
 	}
 	
-	public void addScore(int x)
+	public void addScore(int x) 
 	{
 		this.scorePlayer += x ;
 	}
