@@ -1,5 +1,11 @@
 package Deck;
+
+import Card_Forward.* ;
+import Card_Immu.*;
+import Card_Bonus.* ;
+import Card_Malus.* ;
 import java.util.*;
+
 
 /**
  * Classe réprésentant la pioche du jeu, contient toutes les cartes au début
@@ -56,11 +62,11 @@ public class Deck
 	 */
 	private void addCardForwad()
 	{
-		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("25"));
-		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("50"));
-		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Card_Forward("75"));
-		for(int i = 0 ; i < 12 ; i++) this.card.addElement(new Card_Forward("100"));
-		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Card_Forward("200"));
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Vingt_Cinq());
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Cinquante());
+		for(int i = 0 ; i < 10 ; i++) this.card.addElement(new Soixante_Quinze());
+		for(int i = 0 ; i < 12 ; i++) this.card.addElement(new Cent());
+		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Deux_Cent() );
 	}
 	
 	/**
@@ -68,11 +74,11 @@ public class Deck
 	 */
 	private void addCardMalus()
 	{
-		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Panne de réveil"));
-		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Travaux"));
-		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Maladie"));
-		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Card_Malus("Réseaux down"));
-		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Card_Malus("Fête de trop"));	
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Panne_De_Reveil());
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Travaux());
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Maladie());
+		for(int i = 0 ; i < 3 ; i++) this.card.addElement(new Reseau_Down());
+		for(int i = 0 ; i < 4 ; i++) this.card.addElement(new Fete_De_Trop());	
 	}
 	
 	/**
@@ -80,11 +86,11 @@ public class Deck
 	 */
 	private void addCardBonus()
 	{
-		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Pile Atomique"));
-		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Bus Magique"));
-		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Mot du docteur"));
-		for(int i = 0 ; i < 14 ; i++) this.card.addElement(new Card_Bonus("Réseau Up"));
-		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Card_Bonus("Paracétamol"));
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Pile_Atomique());
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Bus_Magique());
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Mot_Du_Docteur());
+		for(int i = 0 ; i < 14 ; i++) this.card.addElement(new Reseau_Up());
+		for(int i = 0 ; i < 6 ; i++) this.card.addElement(new Paracetamol());
 		
 	}
 	
@@ -93,10 +99,10 @@ public class Deck
 	 */
 	private void addCardImmu()
 	{
-		this.card.addElement(new Card_Immu("Couche-tôt"));
-		this.card.addElement(new Card_Immu("Hélicoptère"));
-		this.card.addElement(new Card_Immu("Santé de fer"));
-		this.card.addElement(new Card_Immu("Proxy"));
+		this.card.addElement(new Couche_Tot());
+		this.card.addElement(new Helicoptere());
+		this.card.addElement(new Sante_De_Fer());
+		this.card.addElement(new Proxy());
 	}
 	
 	/**
