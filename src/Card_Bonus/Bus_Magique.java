@@ -38,7 +38,7 @@ public class Bus_Magique extends Card_Bonus
 					return true ;
 				}
 			}
-		}
+		} 
 		
 		return false ;
 	}
