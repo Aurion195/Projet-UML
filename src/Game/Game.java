@@ -97,7 +97,7 @@ public class Game
 			if(e.canImmu(player.elementAt(i).getPlateau()))
 			{
 				player.elementAt(i).delCard(e);
-				player.elementAt(i).pioche(deck.pioche());
+				player.elementAt(i).pioche(deck.pioche());								//Quand le joueur joue une carte immu, il pioche de nouveau
 				return true ;
 			}
 		}

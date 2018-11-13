@@ -3,9 +3,17 @@ package Card_Forward;
 import Deck.* ;
 import java.util.*;
 
-
+/**
+ * Classe Vingt_Cinq, il s'agit d'une carte qui permet d'avancer, cette carte connait ses propres règles et ses conditions de de mise en place
+ * @author MATHIEU Thomas
+ * @author GARCIA Jérémy
+ *
+ */
 public class Vingt_Cinq extends Card_Forward
 {
+	/**
+	 * Constructeur de la classe
+	 */
 	public Vingt_Cinq()
 	{
 		super("25") ;

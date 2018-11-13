@@ -11,7 +11,7 @@ public class Launcher
 	/**
 	 * Launcher du game
 	 * @param args = string ;
-	 * @throws Exception = attrapre l'exception !
+	 * @throws Exception = attrape l'exception !
 	 */
 	public static void main(String[] args) throws Exception
 	{

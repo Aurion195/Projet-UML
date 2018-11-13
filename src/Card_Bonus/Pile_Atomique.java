@@ -3,8 +3,17 @@ package Card_Bonus;
 import Deck.Card;
 import java.util.*;
 
+/**
+ * Classe Pile_Atomique, il s'agit d'une carte de défense, cette carte connait ses propres règles et ses conditions de de mise en place
+ * @author MATHIEU Thomas
+ * @author GARCIA Jérémy
+ *
+ */
 public class Pile_Atomique extends Card_Bonus 
 {
+	/**
+	 * Constructeur de la classe
+	 */
 	public Pile_Atomique()
 	{
 		super("Pile atomique") ;

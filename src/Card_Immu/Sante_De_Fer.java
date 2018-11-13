@@ -3,8 +3,17 @@ package Card_Immu;
 import Deck.Card;
 import java.util.*;
 
+/**
+ * Classe Couche_tot, il s'agit d'une carte d'immuniter, cette carte connait ses propres règles et ses conditions de de mise en place
+ * @author MATHIEU Thomas
+ * @author GARCIA Jérémy
+ *
+ */
 public class Sante_De_Fer extends Card_Immu
 {
+	/**
+	 * Constructeur de la classe
+	 */
 	public Sante_De_Fer()
 	{
 		super("Santé de fer") ;

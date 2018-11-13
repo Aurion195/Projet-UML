@@ -24,6 +24,7 @@ public abstract class Card
 	/**
 	 * Constructeur de la classe card
 	 * @param name = nom de la carte ;
+	 * @param type = permet de définir le type de la carte ;
 	 */
 	public Card(String name, String type)
 	{
@@ -65,8 +66,31 @@ public abstract class Card
 		this.type = type ;
 	}
 	
+	/**
+	 * Fonction qui est propre au carte de défense, elle permet de savoir si le joeur peut se défendre avec la carte qu'il a choisit
+	 * @param x = plateau du joueur ;
+	 * @return true s'il peut / false sinon
+	 */
 	public abstract boolean canDefend(Vector<Vector<Card>> x) ;
+	
+	/**
+	 * Fonction qui est propre au carte d'avance elle permet de savoir si le joeur avancer avec la carte qu'il a choisit
+	 * @param x = plateau du joueur ;
+	 * @return true s'il peut / false sinon
+	 */
 	public abstract boolean canForward(Vector<Vector<Card>> x) ;
+	
+	/**
+	 * Fonction qui est propre au carte de d'attaque, elle permet de savoir si le joeur attaquer peut se recevoir ce malus
+	 * @param x = plateau du joueur adverse ;
+	 * @return true s'il peut / false sinon
+	 */
 	public abstract boolean canAttaque(Vector<Vector<Card>> x) ;
+	
+	/**
+	 * Fonction qui est propre au carte d'immunité, elle permet de savoir si le joeur peut poser la carte et être immunis avec tout cela
+	 * @param x = plateau du joueur ;
+	 * @return true s'il peut / false sinon
+	 */
 	public abstract boolean canImmu(Vector<Vector<Card>> x) ;
 }
