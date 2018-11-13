@@ -157,69 +157,12 @@ public abstract class Player
 	}
 	
 	/**
-	 * Regarde si le joueur n'a pas de carte RU, s'il n'en a pas 
-	 * le jeu va proposer au joueur de lui poser !
-	 * @return true / false 
-	 */
-	private Card reseauUp()
-	{
-		String tmp = "" ;
-
-		do {
-			Scanner sc = new Scanner(System.in) ;
-			System.out.println("Voullez-vous poser la carte Réseau Up ? (o/n)");
-			tmp = sc.nextLine() ;
-		}while(!tmp.equals("o") && !tmp.equals("n")) ;
-
-		if(tmp.equals("o"))
-		{
-			for(int i = 0 ; i < card.size() ; i++)
-			{
-				if(card.elementAt(i).getName().equals("Réseau Up"))
-				{
-					Card e = card.elementAt(i) ;
-					return e ;
-				}
-			}
-		}
-
-		return null ;
-	}
-	
-	/**
-	 * Regarde si le vecteur de carte du joueur contient une carte Réseau Up
-	 * @return true s'il contient / false sinon
-	 */
-	private boolean containtRu()
-	{
-		for(int i = 0 ; i < card.size(); i++)
-		{
-			if(card.elementAt(i).getName().equals("Réseau Up")) return true ;
-		}
-		
-		return false ;
-	}
-	
-	/**
 	 * Permet au joueur de choisir une carte
 	 * @return la carte que le joueur a choisit de jouer
 	 */
 	public Card chooseCard()
 	{
 		String tmp = "" ;
-		
-		if(plateau.elementAt(0).isEmpty())
-		{
-			if(this.containtRu())
-			{
-				Card e = this.reseauUp() ;
-				if(e != null)
-				{
-					System.out.println("Le joueur pose la carte Réseau Up");
-					return  e ;
-				}
-			}
-		}
 		
 		do {
 			Scanner sc = new Scanner(System.in) ;

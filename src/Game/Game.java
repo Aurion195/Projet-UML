@@ -307,7 +307,6 @@ public class Game
 				{
 					
 					do {
-						System.out.println("0 \n");
 						e = player.elementAt(i).chooseCard() ;
 						if(this.moveIsLegal(e, i))
 						{
