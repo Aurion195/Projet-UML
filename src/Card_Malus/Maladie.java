@@ -12,7 +12,7 @@ public class Maladie extends Card_Malus
 	
 	public boolean canAttaque(Vector<Vector<Card>> x)
 	{
-		if(!x.elementAt(0).isEmpty() && !super.sameCard(x,this) && this.notImmu(x, "Santé de Fer"))
+		if(!x.elementAt(0).isEmpty() && !super.sameCard(x,this) && this.notImmu(x, "Santé de fer"))
 		{
 			x.elementAt(2).addElement(this);
 			return true ;

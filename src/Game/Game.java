@@ -75,6 +75,7 @@ public class Game
 		{
 			if(e.canForward(player.elementAt(i).getPlateau()))
 			{
+				player.elementAt(i).addScore(Integer.parseInt(e.getName())) ;
 				player.elementAt(i).delCard(e);
 				return true ;
 			}
@@ -96,6 +97,7 @@ public class Game
 			if(e.canImmu(player.elementAt(i).getPlateau()))
 			{
 				player.elementAt(i).delCard(e);
+				player.elementAt(i).pioche(deck.pioche());
 				return true ;
 			}
 		}

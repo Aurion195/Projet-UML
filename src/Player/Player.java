@@ -70,6 +70,10 @@ public abstract class Player
 		plateau.addElement(new Vector<Card>());
 	}
 	
+	public void addScore(int x)
+	{
+		this.scorePlayer += x ;
+	}
 	/**
 	 * Vérifie si un joueur a atteint les 1000go
 	 * @return true / false si le joueur à atteint les 1000go
@@ -230,36 +234,6 @@ public abstract class Player
 		
 		return p.elementAt(Integer.parseInt(tmp)).getPlateau() ;
  	}
-	
-	
-	/**
-	 * Regarde si le joueur possède la carte fête de trop
-	 * @return true s'il là / false sinon
-	 */
-	public boolean cardFeteDeTrop()
-	{
-		if(plateau.elementAt(2).size()-1 == 0)
-		{
-			return(plateau.elementAt(2).elementAt(0).getName().equals("Fête de trop") ? true : false) ;
-		}
-		return false ;
-	}
-	
-	/**
-	 * Place une card dans le plateau de joueur ;
-	 * @param e = card à placer ;
-	 * @param x = int ou on va placer la card ;
-	 */
-	public void placeCard(Card e, int x)
-	{
-		if(x == 1)
-		{
-			scorePlayer += Integer.parseInt(e.getName()) ;
-			
-		}
-		this.delCard(e) ;
-		plateau.elementAt(x).addElement(e);
-	}
 	
 	/**
 	 * Ajoute une carte à la pioche
