@@ -62,46 +62,40 @@ public class Game
 		//Si le joueur choisit de jeter une carte
 		if(e == null) return true ;
 		
-		if(e.getType().equals("Card_Bonus"))
+
+		if(e.canDefend(player.elementAt(i).getPlateau()))
 		{
-			if(e.canDefend(player.elementAt(i).getPlateau()))
-			{
-				player.elementAt(i).delCard(e);
-				return true ;
-			}
+			player.elementAt(i).delCard(e);
+			return true ;
 		}
-		
-		if(e.getType().equals("Card_Forward"))
+
+
+		if(e.canForward(player.elementAt(i).getPlateau()))
 		{
-			if(e.canForward(player.elementAt(i).getPlateau()))
-			{
-				player.elementAt(i).addScore(Integer.parseInt(e.getName())) ;
-				player.elementAt(i).delCard(e);
-				return true ;
-			}
+			player.elementAt(i).addScore(Integer.parseInt(e.getName())) ;
+			player.elementAt(i).delCard(e);
+			return true ;
 		}
-		
-		if(e.getType().equals("Card_Malus"))
+
+
+
+		Vector<Vector<Card>> p = player.elementAt(i).choosePlayer(player, i) ;
+
+		if(e.canAttaque(p))
 		{
-			Vector<Vector<Card>> p = player.elementAt(i).choosePlayer(player, i) ;
-			
-			if(e.canAttaque(p))
-			{
-				player.elementAt(i).delCard(e);
-				return true ;
-			}
+			player.elementAt(i).delCard(e);
+			return true ;
 		}
-		
-		if(e.getType().equals("Card_Immu"))
+
+
+		if(e.canImmu(player.elementAt(i).getPlateau()))
 		{
-			if(e.canImmu(player.elementAt(i).getPlateau()))
-			{
-				player.elementAt(i).delCard(e);
-				player.elementAt(i).pioche(deck.pioche());								//Quand le joueur joue une carte immu, il pioche de nouveau
-				return true ;
-			}
+			player.elementAt(i).delCard(e);
+			player.elementAt(i).pioche(deck.pioche());								//Quand le joueur joue une carte immu, il pioche de nouveau
+			return true ;
 		}
-				return false ;
+
+		return false ;
 	}
 	
 	/**
@@ -112,9 +106,9 @@ public class Game
 	{
 		boolean winer = false ;
 		Card e ;
+		this.displayPlayer() ;
 		while(!winer && !this.endOfGame())
 		{
-			this.displayPlayer() ;
 			for(int i = 0 ; i < this.player.size() ; i++)
 			{
 				System.out.println("\n \n \n \n");

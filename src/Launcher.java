@@ -7,7 +7,7 @@ import java.util.* ;
  * @author GARCIA Jérémy
  */
 public class Launcher 
-{
+{ 
 	/**
 	 * Launcher du game
 	 * @param args = string ;
@@ -16,7 +16,7 @@ public class Launcher
 	public static void main(String[] args) throws Exception
 	{
 		Player p = new Human("Thomas","Auritas") ;
-		Player p1 = new Human("Nizar", "L'araben") ;
+		Player p1 = new Human("Jérémy", "Slowblitz") ;
 		Game game = new Game() ;
 		game.addPlayer(p);
 		game.addPlayer(p1);
